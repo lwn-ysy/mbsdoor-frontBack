@@ -208,6 +208,29 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'Account',
+    meta: {
+      title: '账号管理',
+      icon: 'lock',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/account/index'),
+        name: 'PageAccount',
+        meta: {
+          title: '账号信息',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

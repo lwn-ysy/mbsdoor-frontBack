@@ -62,14 +62,14 @@
         <el-button
           type="primary"
           plain
-          @click.native="defaultLogin({ username: 'admin', passworld: 'admin' })"
+          @click.native="defaultLogin({ username: 'admin', password: 'admin' })"
           >管理员</el-button
         >
         <el-button
           type="primary"
           plain
           @click.native="
-            defaultLogin({ username: 'editor', passworld: 'editor' })
+            defaultLogin({ username: 'editor', password: 'editor' })
           "
           >编辑员</el-button
         >
@@ -77,7 +77,7 @@
           type="primary"
           plain
           @click.native="
-            defaultLogin({ username: 'tourist', passworld: 'tourist' })
+            defaultLogin({ username: 'tourist', password: 'tourist' })
           "
           >游客</el-button
         >
@@ -109,7 +109,7 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "111111",
+        password: "admin",
       },
       loginRules: {
         username: [
