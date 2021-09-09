@@ -12,15 +12,15 @@
         <h3 class="title">欢迎登录门博士后台系统</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="account">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
+          ref="account"
+          v-model="loginForm.account"
           placeholder="请输入用户名"
-          name="username"
+          name="account"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -62,14 +62,14 @@
         <el-button
           type="primary"
           plain
-          @click.native="defaultLogin({ username: 'admin', password: 'admin' })"
+          @click.native="defaultLogin({ account: 'admin', password: 'admin' })"
           >管理员</el-button
         >
         <el-button
           type="primary"
           plain
           @click.native="
-            defaultLogin({ username: 'editor', password: 'editor' })
+            defaultLogin({ account: 'editor', password: 'editor' })
           "
           >编辑员</el-button
         >
@@ -77,7 +77,7 @@
           type="primary"
           plain
           @click.native="
-            defaultLogin({ username: 'tourist', password: 'tourist' })
+            defaultLogin({ account: 'tourist', password: 'tourist' })
           "
           >游客</el-button
         >
@@ -87,13 +87,13 @@
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
+import { validateAccount } from "@/utils/validate";
 
 export default {
   name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!validateAccount(value)) {
         callback(new Error("用户名不能为空"));
       } else {
         callback();
@@ -108,11 +108,11 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
+        account: "admin",
         password: "admin",
       },
       loginRules: {
-        username: [
+        account: [
           { required: true, trigger: "blur", validator: validateUsername },
         ],
         password: [
@@ -132,9 +132,6 @@ export default {
       },
       immediate: true,
     },
-  },
-  mounted() {
-    console.log("login组件:", this);
   },
   methods: {
     showPwd() {

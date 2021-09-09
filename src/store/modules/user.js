@@ -5,7 +5,7 @@
 // const getDefaultState = () => {
 //   return {
 //     token: getToken(),
-//     name: '',
+//     nickname: '',
 //     avatar: '',
 //     introduction: '',
 //     roles: []
@@ -21,8 +21,8 @@
 //   SET_TOKEN: (state, token) => {
 //     state.token = token
 //   },
-//   SET_NAME: (state, name) => {
-//     state.name = name
+//   SET_NAME: (state, nickname) => {
+//     state.nickname = nickname
 //   },
 //   SET_AVATAR: (state, avatar) => {
 //     state.avatar = avatar
@@ -32,9 +32,9 @@
 // const actions = {
 //   // user login
 //   login({ commit }, userInfo) {
-//     const { username, password } = userInfo
+//     const { account, password } = userInfo
 //     return new Promise((resolve, reject) => {
-//       login({ username: username.trim(), password: password }).then(response => {
+//       login({ account: account.trim(), password: password }).then(response => {
 //         const { data } = response
 //         commit('SET_TOKEN', data.token)
 //         setToken(data.token)
@@ -55,9 +55,9 @@
 //           return reject('Verification failed, please Login again.')
 //         }
 
-//         const { name, avatar } = data
+//         const { nickname, avatar } = data
 
-//         commit('SET_NAME', name)
+//         commit('SET_NAME', nickname)
 //         commit('SET_AVATAR', avatar)
 //         resolve(data)
 //       }).catch(error => {
@@ -105,7 +105,7 @@ import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  name: '',
+  nickname: '',
   avatar: '',
   introduction: '',
   roles: []
@@ -118,8 +118,8 @@ const mutations = {
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_NAME: (state, nickname) => {
+    state.nickname = nickname
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -131,10 +131,11 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit}, userInfo) {
-    const { username, password } = userInfo
+  login({ commit }, userInfo) {
+    const { account, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ account: account.trim(), password: password }).then(response => {
+        console.log('后端返回的数据', response)
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
@@ -155,7 +156,7 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { roles, nickname, avatar, introduction } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -163,7 +164,7 @@ const actions = {
         }
 
         commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
+        commit('SET_NAME', nickname)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
         resolve(data)
@@ -205,7 +206,7 @@ const actions = {
 
   // dynamically modify permissions
   async changeRoles({ commit, dispatch }, role) {
-    const token = role + '-token'
+    const token = role + '-token' // TODO:这里token跟我服务器的设置不一样
 
     commit('SET_TOKEN', token)
     setToken(token)

@@ -23,6 +23,6 @@ export function isExternal(path) {
 
 
 // 这里设置非空即可
-export function validUsername(str) {
+export function validateAccount(str) {
   return str.trim().length > 0
 }
