@@ -222,6 +222,29 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/activity',
+    component: Layout,
+    redirect: '/activity/banner',
+    alwaysShow: true, 
+    name: 'Activity',
+    meta: {
+      title: '活动系统',
+      icon: 'lock',
+      roles: ['admin','editor'] 
+    },
+    children: [
+      {
+        path: 'banner',
+        component: () => import('@/views/activity/banner'),
+        name: 'ActivityBanner',
+        meta: {
+          title: '轮播图',
+          roles: ['admin','editor'] 
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
