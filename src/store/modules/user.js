@@ -135,7 +135,6 @@ const actions = {
     const { account, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ account: account.trim(), password: password }).then(response => {
-        console.log('后端返回的数据', response)
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)

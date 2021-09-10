@@ -5,6 +5,7 @@
         >添加用户</el-button
       >
     </div>
+    <!-- 表格 -->
     <el-table
       stripe
       :data="
@@ -20,24 +21,14 @@
       <el-table-column label="密码" prop="password"> </el-table-column>
       <el-table-column label="昵称" prop="nickname"> </el-table-column>
       <el-table-column label="描述" prop="introduction"> </el-table-column>
-      <el-table-column label="权限" prop="roles">
-        <template slot-scope="scope">
-          <el-tag
-            type="success"
-            v-for="role in scope.row.roles"
-            :key="role"
-            class="role-item"
-            >{{ role }}</el-tag
-          >
-        </template>
-      </el-table-column>
       <el-table-column align="right">
-        <template slot="header">
+        <!-- TODO: slot-scope会影响input不显示内容 -->
+        <template slot="header" slot-scope="scope">
           <el-input
             v-model="search"
             size="mini"
-            placeholder="输入昵称关键字搜索"
-          />
+            placeholder="输入关键字搜索"
+          ></el-input>
         </template>
         <template slot-scope="scope">
           <!-- <el-button
@@ -59,7 +50,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 表格编辑和增加dialog -->
+    <!-- 编辑和增加dialog -->
     <el-dialog :title="formLableTitle" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="账号" :label-width="formLabelWidth">
@@ -88,20 +79,13 @@
             suffix-icon="el-icon-date"
           ></el-input>
         </el-form-item>
-        <el-form-item label="权限" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="form.roles" size="small">
-            <el-checkbox label="admin" border></el-checkbox>
-            <el-checkbox label="editor" border></el-checkbox>
-            <el-checkbox label="tourist" border></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleUpdateAdd()">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 表格删除dialg -->
+    <!-- 删除dialg -->
     <el-dialog title="删除提示" :visible.sync="dialogVisble" width="30%" center>
       <span>确认要删除账户？ {{ this.deleteData.account }}</span>
       <span slot="footer" class="dialog-footer">
@@ -121,6 +105,7 @@ import {
 } from "@/api/account.js";
 
 export default {
+  name: "Account",
   data() {
     return {
       // table data
@@ -130,12 +115,11 @@ export default {
       // dialogForm data no.1 for add/update
       dialogFormVisible: false,
       form: {
-        userID: "2",
-        account: "admin",
-        password: "admin",
-        nickname: "林伟楠",
+        userID: "",
+        account: "",
+        password: "",
+        nickname: "",
         introduction: "",
-        roles: ["admin", "editor"],
       },
       formLabelWidth: "120px",
       passwordDisabled: true,
@@ -157,8 +141,7 @@ export default {
         this.tableLoading = false;
       });
     },
-    goEditDialog(index, row, scope) {
-      console.log(index, row, scope);
+    goEditDialog(row) {
       this.form = { ...row };
       this.passwordDisabled = true;
       this.formLableTitle = "信息修改";
@@ -170,7 +153,6 @@ export default {
         password: "",
         nickname: "",
         introduction: "",
-        roles: [],
       };
       this.passwordDisabled = false;
       this.formLableTitle = "增加用户";
@@ -238,9 +220,6 @@ export default {
   }
   .el-checkbox {
     margin-right: 10px;
-  }
-  .role-item {
-    margin-right: 5px;
   }
 }
 </style>

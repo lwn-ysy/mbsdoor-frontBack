@@ -174,7 +174,7 @@ export const constantRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'Permission',
     meta: {
-      title: 'Permission',
+      title: '权限系统',
       icon: 'lock',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
@@ -184,17 +184,8 @@ export const constantRoutes = [
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
-          title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'Directive Permission'
-          // if do not set roles, means: this page does not require permission
+          title: '权限列表',
+          roles: ['editor','tourist'] // or you can only set roles in sub nav
         }
       },
       {
@@ -202,7 +193,7 @@ export const constantRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: 'Role Permission',
+          title: '权限管理',
           roles: ['admin']
         }
       }
@@ -215,7 +206,7 @@ export const constantRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'Account',
     meta: {
-      title: '账号管理',
+      title: '账号系统',
       icon: 'lock',
       roles: ['admin'] // you can set roles in root nav
     },
@@ -225,7 +216,7 @@ export const constantRoutes = [
         component: () => import('@/views/account/index'),
         name: 'PageAccount',
         meta: {
-          title: '账号信息',
+          title: '账号管理',
           roles: ['admin'] // or you can only set roles in sub nav
         }
       }
