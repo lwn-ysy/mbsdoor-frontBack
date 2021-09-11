@@ -242,6 +242,15 @@ export const constantRoutes = [
           title: '轮播图',
           roles: ['admin','editor'] 
         }
+      },
+      {
+        path: 'addbanner',
+        component: () => import('@/views/activity/addbanner'),
+        name: 'ActivityAddBanner',
+        meta: {
+          title: '添加轮播图',
+          roles: ['admin','editor'] 
+        }
       }
     ]
   },
