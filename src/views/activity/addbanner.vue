@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <el-form ref="form" :model="form" label-width="120px">
+    <div class="header">添加轮播图</div>
+    <el-form ref="form" :model="form" label-width="120px" class="form">
       <el-form-item label="类型">
         <el-select v-model="form.type" placeholder="分类属于">
           <el-option label="活动" value="活动"></el-option>
@@ -14,7 +15,6 @@
         <el-input
           v-model="form.description"
           placeholder="对此轮播图的一些说明或者备注"
-          style="maxwidth: 600px"
         ></el-input>
       </el-form-item>
 
@@ -68,8 +68,8 @@
       ></el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">发布</el-button>
-        <el-button>重置表格</el-button>
+        <el-button type="primary" @click="onSubmit">上传</el-button>
+        <el-button @click="resetForm">重置表格</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -84,7 +84,7 @@ export default {
       form: {
         description: "",
         type: "",
-        hidden: false,
+        hidden: true,
       },
       // 文件上传区域
       uploadURL: "http://localhost:5000/vue-admin-template/activity/banner",
@@ -106,13 +106,26 @@ export default {
     onExceed() {
       this.$message("一张就够了哦。您可先删除前面，再添加新的。");
     },
+    resetForm() {
+      this.form = {
+        description: "",
+        type: "",
+        hidden: true,
+      };
+      this.$refs.upload.uploadFiles = [];
+    },
     // 提交后触发handleUpLoad
     onSubmit() {
+      if (this.$refs.upload.uploadFiles.length === 0) {
+        this.$message.error("出错了，请先添加图片。");
+        return;
+      }
       this.$refs.upload.submit();
     },
     handleUpLoad(file) {
       // 新建一个FromData格式
-      const formData = new FormData();
+      
+      let formData = new FormData();
       formData.append("file", file.file);
       formData.append("type", this.form.type);
       formData.append("description", this.form.description);
@@ -124,6 +137,7 @@ export default {
             message: `轮播图添加成功。`,
             type: "success",
           });
+          this.resetForm();
         }
       });
     },
@@ -131,5 +145,21 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.container {
+  width: 600px;
+  margin: auto;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .header {
+    margin: 40px;
+    font-weight: bolder;
+  }
+  .form {
+    width: 500px;
+  }
+}
 </style>

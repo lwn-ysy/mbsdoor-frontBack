@@ -54,108 +54,25 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
   {
     path: 'external-link',
     component: Layout,
+    meta: {
+      title: "github地址",
+      icon: 'link'
+    },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://github.com/lwn-ysy/mbsDoor',
+        meta: { title: '小程序--门博士系列' }
+      },
+      {
+        path: 'https://github.com/lwn-ysy/mbsdoor-frontBack',
+        meta: { title: '后台系统--门博士系列' }
+      },
+      {
+        path: 'https://github.com/lwn-ysy/mbsdoorServer',
+        meta: { title: '后端--门博士系列' }
       }
     ]
   }
@@ -166,28 +83,19 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 
- export const asyncRoutes = [
+export const asyncRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/page',
+    redirect: '/permission/role',
     alwaysShow: true, // will always show the root menu
     name: 'Permission',
     meta: {
       title: '权限系统',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      roles: ['admin', 'editor']
     },
     children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '权限列表',
-          roles: ['editor','tourist'] // or you can only set roles in sub nav
-        }
-      },
       {
         path: 'role',
         component: () => import('@/views/permission/role'),
@@ -195,6 +103,15 @@ export const constantRoutes = [
         meta: {
           title: '权限管理',
           roles: ['admin']
+        }
+      },
+      {
+        path: 'page',
+        component: () => import('@/views/permission/page'),
+        name: 'PagePermission',
+        meta: {
+          title: '权限列表',
+          roles: ['editor', 'tourist']
         }
       }
     ]
@@ -226,12 +143,12 @@ export const constantRoutes = [
     path: '/activity',
     component: Layout,
     redirect: '/activity/banner',
-    alwaysShow: true, 
+    alwaysShow: true,
     name: 'Activity',
     meta: {
       title: '活动系统',
       icon: 'lock',
-      roles: ['admin','editor'] 
+      roles: ['admin', 'editor']
     },
     children: [
       {
@@ -240,7 +157,7 @@ export const constantRoutes = [
         name: 'ActivityBanner',
         meta: {
           title: '轮播图',
-          roles: ['admin','editor'] 
+          roles: ['admin', 'editor']
         }
       },
       {
@@ -249,9 +166,59 @@ export const constantRoutes = [
         name: 'ActivityAddBanner',
         meta: {
           title: '添加轮播图',
-          roles: ['admin','editor'] 
+          roles: ['admin', 'editor']
         }
       }
+    ]
+  },
+  {
+    path: '/shop',
+    component: Layout,
+    redirect: '/shop/page',
+    alwaysShow: true,
+    name: 'Shop',
+    meta: {
+      title: '商品系统',
+      icon: 'lock',
+      roles: ['admin', 'editor']
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/shop/page'),
+        name: 'ShopPage',
+        meta: {
+          title: '基本信息',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/shop/detail'),
+        name: 'ShopDetail',
+        meta: {
+          title: '详情信息',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'category',
+        component: () => import('@/views/shop/category'),
+        name: 'ShopCategory',
+        meta: {
+          title: '商品分类总表',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'tag',
+        component: () => import('@/views/shop/tag'),
+        name: 'ShopTag',
+        meta: {
+          title: '商品标签总表',
+          roles: ['admin', 'editor']
+        }
+      },
     ]
   },
   // 404 page must be placed at the end !!!

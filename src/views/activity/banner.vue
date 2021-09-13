@@ -1,7 +1,13 @@
 <template>
   <div class="container">
     <!-- 1. 轮播图 -->
-    <div class="lbt-wrapper"></div>
+    <div class="lbt-wrapper">
+      <el-carousel trigger="click" :autoplay="false">
+        <el-carousel-item v-for="url in lbtURL" :key="url">
+          <el-image :src="url" fit="fill" class="lbt-img"></el-image>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
     <!-- 2. 表格 -->
     <el-table
       stripe
@@ -162,6 +168,8 @@ export default {
       deleteData: {
         bannerID: "",
       },
+      //轮播图
+      lbtURL: [],
     };
   },
   methods: {
@@ -171,6 +179,9 @@ export default {
       getBanner().then((res) => {
         this.tableData = res.data;
         this.tableLoading = false;
+        this.lbtURL = res.data.map((item) => {
+          return item.picURL;
+        });
       });
     },
     goEditDialog(row) {
@@ -216,6 +227,15 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  .lbt-wrapper{
+    width: 657px;
+    margin: 30px auto;
+    .lbt-img{
+      height: 100%;
+      width: 100%;
+      border-radius: 10px;
+    }
+  }
   .img {
     :hover {
       opacity: 0.8;
