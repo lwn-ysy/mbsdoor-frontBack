@@ -125,8 +125,7 @@ export default {
       // dialog no.2 for delete
       dialogVisble: false,
       deleteData: {
-        userID: "",
-        roleID: [],
+          tagID:''
       },
     };
   },

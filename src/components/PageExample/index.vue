@@ -14,7 +14,7 @@ export default {
   name: "PageExample",
   data() {
     return {
-      picUrl: "./page-example.png",
+      picUrl: "https://mbsdoor.com:5000/static/image/wx/page-example.png",
     };
   },
 };

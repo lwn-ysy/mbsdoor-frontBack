@@ -206,7 +206,7 @@ export const asyncRoutes = [
         component: () => import('@/views/shop/category'),
         name: 'ShopCategory',
         meta: {
-          title: '商品分类总表',
+          title: '商品品类总表',
           roles: ['admin', 'editor']
         }
       },
