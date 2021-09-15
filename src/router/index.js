@@ -85,6 +85,81 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
+    path: '/shop',
+    component: Layout,
+    redirect: '/shop/page',
+    alwaysShow: true,
+    name: 'Shop',
+    meta: {
+      title: '商品系统',
+      icon: 'lock',
+      roles: ['admin', 'editor']
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/shop/page'),
+        name: 'ShopPage',
+        meta: {
+          title: '基本信息',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/shop/detail'),
+        name: 'ShopDetail',
+        meta: {
+          title: '详情信息',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'category',
+        component: () => import('@/views/shop/category'),
+        name: 'ShopCategory',
+        meta: {
+          title: '品类总表',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'tag',
+        component: () => import('@/views/shop/tag'),
+        name: 'ShopTag',
+        meta: {
+          title: '标签总表',
+          roles: ['admin', 'editor']
+        }
+      },
+      {
+        path: 'addshop',
+        component: () => import('@/views/shop/addshop'),
+        name: 'AddShop',
+        hidden: true,
+        meta: {
+          title: '添加商品',
+          roles: ['admin', 'editor'],
+        },
+      },
+      {
+        path: 'updateshop',
+        component: () => import('@/views/shop/updateshop'),
+        name: 'UpdateShop',
+        hidden: true,
+        meta: {
+          title: '更新商品',
+          roles: ['admin', 'editor'],
+        },
+        props($route) {
+          return {
+            shopID: $route.query.shopID
+          }
+        }
+      },
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/role',
@@ -171,56 +246,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/shop',
-    component: Layout,
-    redirect: '/shop/page',
-    alwaysShow: true,
-    name: 'Shop',
-    meta: {
-      title: '商品系统',
-      icon: 'lock',
-      roles: ['admin', 'editor']
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/shop/page'),
-        name: 'ShopPage',
-        meta: {
-          title: '基本信息',
-          roles: ['admin', 'editor']
-        }
-      },
-      {
-        path: 'detail',
-        component: () => import('@/views/shop/detail'),
-        name: 'ShopDetail',
-        meta: {
-          title: '详情信息',
-          roles: ['admin', 'editor']
-        }
-      },
-      {
-        path: 'category',
-        component: () => import('@/views/shop/category'),
-        name: 'ShopCategory',
-        meta: {
-          title: '商品品类总表',
-          roles: ['admin', 'editor']
-        }
-      },
-      {
-        path: 'tag',
-        component: () => import('@/views/shop/tag'),
-        name: 'ShopTag',
-        meta: {
-          title: '商品标签总表',
-          roles: ['admin', 'editor']
-        }
-      },
-    ]
-  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

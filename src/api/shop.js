@@ -1,10 +1,13 @@
 import request from '@/utils/request'
 
 // 获取
-export function getShop() {
+// 传shopID获取一个商品信息，
+// 不传，获取所有商品信息
+export function getShop(shopID) {
   return request({
     url: '/vue-admin-template/shop/page',
     method: 'get',
+    params: { shopID }
   })
 }
 
@@ -40,6 +43,14 @@ export function updateShopNoImg(data) {
     url: '/vue-admin-template/shop/noimage',
     method: 'put',
     data
+  })
+}
+
+export function deleteGalary(servePath) {
+  return request({
+    url: '/vue-admin-template/shop/galary',
+    method: 'delete',
+    params: { servePath }
   })
 }
 

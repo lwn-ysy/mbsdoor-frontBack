@@ -16,11 +16,11 @@
 
 ① fileList属性
 
-官方解释：上传的文件列表, 例如: [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]。
+官方解释：上传的文件列表, 例如: [{name: 'food.jpg', url: ‘htts://xxx.cdn.com/xxx.jpg‘}]。
 
 我在实践中感觉更像：已上传的文件列表。
 
-添加至fileList里的文件，status状态自动变为：success，即使你之前没有操作过上传此文件，后续也不会上传。
+fileList属性里的值，会自动添加到uploadFiles(管理文件上传)，并status状态标记为：success，即后续不会上传。
 
 ②submit方法
 
