@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <page-example></page-example>
     <form-table
       :hanldeSubmit="handleApi"
       :initForm="initFormData"
@@ -12,11 +13,11 @@
 
 <script>
 import { getShop, updateShop } from "@/api/shop";
-
+import PageExample from "@/components/PageExample";
 import FormTable from "./components/formtable.vue";
 export default {
   name: "UpadteShop",
-  components: { FormTable },
+  components: { FormTable, PageExample },
   props: {
     // 路由传参
     // 商品信息界面跳转到更新页面，
@@ -36,6 +37,7 @@ export default {
       },
       coverImage: [],
       galaryImage: [],
+      galaryUpload: [],
     };
   },
   computed: {
@@ -45,23 +47,24 @@ export default {
   },
   methods: {
     async getInitFormData() {
-      let res = await getShop(this.shopID);
+      let res = await getShop({ shopID: this.shopID });
+      let data = res.data[0];
       console.log("数据：", res);
       this.initFormData = {
-        title: res.data[0].title,
-        categoryID: res.data[0].categoryID,
-        des: res.data[0].des,
-        tagID: res.data[0].tagID,
+        title: data.title,
+        categoryID: data.categoryID,
+        des: data.des,
+        tagID: data.tagID,
+        shopID: data.shopID,
       };
       this.coverImage.push({
-        url: res.data[0].coverPicUrl,
+        url: data.coverPicUrl,
       });
-      this.galaryImage = res.data[0].imageurl.map((item) => {
+      this.galaryImage = data.imageurl.map((item) => {
         return {
           url: item,
         };
       });
-      console.log(this.coverImage);
     },
   },
   mounted() {

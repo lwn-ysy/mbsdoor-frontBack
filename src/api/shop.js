@@ -3,11 +3,11 @@ import request from '@/utils/request'
 // 获取
 // 传shopID获取一个商品信息，
 // 不传，获取所有商品信息
-export function getShop(shopID) {
+export function getShop(data) {
   return request({
     url: '/vue-admin-template/shop/page',
     method: 'get',
-    params: { shopID }
+    params: data
   })
 }
 

@@ -86,7 +86,7 @@
         <!-- 图片集upload 开始 -->
         <el-form-item label="图片集" :label-width="formLabelWidth">
           <el-upload
-            action="http://localhost:5000/vue-admin-template/shop/galary"
+            action="https://mbsdoor.com:5000/vue-admin-template/shop/galary"
             list-type="picture-card"
             :on-success="onSuccess"
             :on-remove="galaryRemove"
@@ -120,7 +120,8 @@
 <script>
 /**
  * 表单formtable组件，用于修改和增加商品
- * hanldeSubmit参数必须传，用于连接服务器处理提交表单
+ * hanldeSubmit参数必须传，用于发送请求，默认参数：表单数据
+ * isAdd:true/false ,添加 / 更新，默认是添加
  */
 import { getCategory } from "@/api/category";
 import { getTag } from "@/api/tag";
@@ -144,18 +145,9 @@ export default {
           categoryID: undefined,
           des: "",
           tagID: [],
+          shopID: "",
         };
       },
-    },
-    // 初始化封面图片表单的数据
-    coverImgaUrl: {
-      type: Array,
-      required: false,
-    },
-    // 初始化图片集表单的数据
-    galaryImageUrls: {
-      type: Array,
-      required: false,
     },
     // 封面组件的已添加图片
     coverFileList: {
@@ -189,10 +181,20 @@ export default {
       galaryImageUrl: "",
       galaryVisible: false,
       galaryDeleteIcon: false,
-      galaryImages: [], //上传成功的图片地址集合
     };
   },
   methods: {
+    // 获取所有上传图片的url地址，没有用compute、watch实现
+    getImageurl() {
+      let imageurl = this.$refs.galaryUpload.uploadFiles.map((item) => {
+        if (item.response) {
+          return item.response.data;
+        } else {
+          return item.url;
+        }
+      });
+      return imageurl;
+    },
     // 封面图的upload组件
     coverRemove(file, fileList) {
       console.log(this.$refs.upload);
@@ -204,20 +206,23 @@ export default {
     },
     httpRequest(file) {
       let formData = new FormData();
+      let imageurl = this.getImageurl();
+      // 封面图由后端操作
       formData.append("file", file.file);
-      formData.append("title", this.form.title);
-      formData.append("des", this.form.des);
-      formData.append("categoryID", this.form.categoryID);
-      formData.append("tagID", this.form.tagID);
-      formData.append("galaryImageUrls", this.galaryImages);
+      formData.append("title", this.initForm.title);
+      formData.append("des", this.initForm.des);
+      formData.append("categoryID", this.initForm.categoryID);
+      formData.append("tagID", this.initForm.tagID);
+      formData.append("shopID", this.initForm.shopID);
+      formData.append("imageurl", imageurl);
       this.hanldeSubmit(formData).then((res) => {
         if (res.code === 20000) {
           this.$confirm(
-            `商品名称：${this.form.title} 添加成功。跳转到商品界面，还是继续添加呢？`,
+            `商品名称：${this.initForm.title} 操作成功。跳转到商品界面？`,
             {
-              title: "添加成功",
+              title: "操作成功",
               confirmButtonText: "跳转商品界面",
-              cancelButtonText: "继续添加",
+              cancelButtonText: "暂不",
               type: "success",
             }
           )
@@ -225,7 +230,8 @@ export default {
               this.$router.push("/shop/page");
             })
             .catch(() => {
-              this.resetForm();
+              // this.resetForm();
+              console.log("停留在此界面");
             });
         }
       });
@@ -243,7 +249,6 @@ export default {
       };
       this.$refs.upload.uploadFiles = [];
       this.$refs.galaryUpload.uploadFiles = [];
-      this.galaryImages = [];
     },
 
     handleAdd() {
@@ -260,11 +265,31 @@ export default {
         );
         if (isEdited) {
           // 封面图有更新过
+          this.$refs.upload.submit();
         } else {
           //封面图无更新过
-          updateShopNoImg(this.initForm).then((res) => {
-            if (res.code === 2000) {
-              console.log("更新成功");
+          let imageurl = this.getImageurl();
+          updateShopNoImg({
+            ...this.initForm,
+            imageurl: imageurl,
+          }).then((res) => {
+            if (res.code === 20000) {
+              this.$confirm(
+                `商品名称：${this.initForm.title} 更新成功。跳转到商品界面？`,
+                {
+                  title: "操作成功",
+                  confirmButtonText: "跳转商品界面",
+                  cancelButtonText: "暂不",
+                  type: "success",
+                }
+              )
+                .then(() => {
+                  this.$router.push("/shop/page");
+                })
+                .catch(() => {
+                  // this.resetForm();
+                  console.log("停留在此界面");
+                });
             }
           });
         }
@@ -275,9 +300,6 @@ export default {
       let servePath = undefined;
       if (file.response) {
         servePath = file.response.data;
-        this.galaryImages = this.galaryImages.filter(
-          (item) => item !== servePath
-        );
       } else {
         servePath = file.url;
       }
@@ -293,14 +315,12 @@ export default {
       this.galaryVisible = true;
     },
     onSuccess(response, file, fileList) {
-      console.log("response", response);
-      this.galaryImages.push(response.data);
+      // this.imageurl.push(response.data);
     },
   },
   mounted() {
     getCategory().then((res) => (this.categoryOptions = res.data));
     getTag().then((res) => (this.tagOptions = res.data));
-    console.log(this.$refs.upload.uploadFiles);
   },
 };
 </script>

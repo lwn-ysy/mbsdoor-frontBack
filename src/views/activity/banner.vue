@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <page-example/>
     <!-- 1. 轮播图 -->
     <div class="lbt-wrapper">
       <el-carousel trigger="click" :autoplay="false">
@@ -124,9 +125,11 @@
 </template>
 
 <script>
+import PageExample from "@/components/PageExample";
 import { getBanner, deleteBanner, updateBanner } from "@/api/banner";
 export default {
   name: "ActivityBanner",
+  components: { PageExample },
   data() {
     return {
       // table data
@@ -227,10 +230,10 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  .lbt-wrapper{
+  .lbt-wrapper {
     width: 657px;
     margin: 30px auto;
-    .lbt-img{
+    .lbt-img {
       height: 100%;
       width: 100%;
       border-radius: 10px;

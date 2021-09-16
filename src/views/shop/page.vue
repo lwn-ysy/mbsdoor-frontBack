@@ -1,8 +1,18 @@
 <template>
   <div class="container">
     <page-example />
+    <!-- 分页 -->
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="total"
+      :current-page.sync="currentPage"
+      @current-change="handleChange"
+    >
+    </el-pagination>
     <!-- 表格 -->
     <el-table
+      v-loading="tableLoading"
       stripe
       style="width: 100%"
       :data="
@@ -94,6 +104,7 @@
 <script>
 import PageExample from "@/components/PageExample";
 import { getShop, deleteShop } from "@/api/shop";
+import { getShopTotal } from "@/api/count";
 export default {
   name: "ShopPage",
   components: { PageExample },
@@ -121,49 +132,31 @@ export default {
       deleteData: {
         shopID: "",
       },
+      // 分页
+      total: 86,
+      currentPage: 1,
     };
   },
+  // watch: {
+  //   currentPage: {
+  //     handler(newvalue) {
+  //       console.log(newvalue);
+  //     },
+  //   },
+  // },
   methods: {
-    refreshTableData() {
+    refreshTableData(objectData) {
       this.tableLoading = true;
-      getShop().then((res) => {
+      getShop(objectData).then((res) => {
         this.tableData = res.data;
         this.tableLoading = false;
       });
+      getShopTotal().then((res) => (this.total = res.data[0].total));
     },
     goDeleteDialog(row) {
       this.dialogVisble = true;
       this.deleteData = { ...row };
     },
-
-    //更新的upload组件
-    handleRemove(file, type) {
-      if (type === "update") {
-        // 更新的upload
-        this.$refs.updateUpload.uploadFiles =
-          this.$refs.updateUpload.uploadFiles.filter(
-            (item) => item.uid !== file.uid
-          );
-      } else {
-        // 增加的upload
-        this.$refs.addUpload.uploadFiles =
-          this.$refs.addUpload.uploadFiles.filter(
-            (item) => item.uid !== file.uid
-          );
-      }
-    },
-    handlePictureCardPreview(file) {
-      if (type === "update") {
-        // 更新的upload
-        this.updateUploadImageUrl = file.url;
-        this.updataUploadVisible = true;
-      } else {
-        // 增加的upload
-        this.addUploadImageUrl = file.url;
-        this.addUploadVisible = true;
-      }
-    },
-
     async hanldeDelete() {
       await deleteShop(this.deleteData.shopID);
       this.$notify({
@@ -186,6 +179,10 @@ export default {
         query: { shopID: row.shopID },
       });
     },
+    //分页
+    handleChange(val) {
+      this.refreshTableData({ currentPage: val });
+    },
   },
   mounted() {
     this.refreshTableData();
@@ -195,6 +192,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  margin: 20px;
   .search {
     width: 120px;
   }
