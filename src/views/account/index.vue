@@ -192,11 +192,19 @@ export default {
         //增加
         addAccount(this.form).then((res) => {
           if (res.code === 20000) {
-            this.$notify({
-              title: "成功",
-              message: `账号：${this.form.account}已成功添加`,
-              type: "success",
-            });
+            this.$confirm(
+              `账户 ${this.form.account} 添加成功，是否跳转到权限系统，给新账户添加权限？`,
+              "添加成功",
+              {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "success",
+              }
+            )
+              .then(() => {
+                this.$router.push("/permission/role");
+              })
+              .catch(() => {});
             this.dialogFormVisible = false;
             // this.form = {};
             this.refreshTableData();

@@ -109,6 +109,7 @@ export const asyncRoutes = [
         path: 'detail',
         component: () => import('@/views/shop/detail'),
         name: 'ShopDetail',
+        hidden: true,
         meta: {
           title: '详情信息',
           roles: ['admin', 'editor']
@@ -160,61 +161,6 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/role',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: '权限系统',
-      icon: 'lock',
-      roles: ['admin', 'editor']
-    },
-    children: [
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: '权限管理',
-          roles: ['admin']
-        }
-      },
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '权限列表',
-          roles: ['editor', 'tourist']
-        }
-      }
-    ]
-  },
-  {
-    path: '/account',
-    component: Layout,
-    redirect: '/account/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Account',
-    meta: {
-      title: '账号系统',
-      icon: 'lock',
-      roles: ['admin'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/account/index'),
-        name: 'PageAccount',
-        meta: {
-          title: '账号管理',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      }
-    ]
-  },
-  {
     path: '/activity',
     component: Layout,
     redirect: '/activity/banner',
@@ -246,6 +192,63 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'Account',
+    meta: {
+      title: '账号系统',
+      icon: 'lock',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/account/index'),
+        name: 'PageAccount',
+        meta: {
+          title: '账号管理',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/role',
+    alwaysShow: true, // will always show the root menu
+    name: 'Permission',
+    meta: {
+      title: '权限系统',
+      icon: 'lock',
+      roles: ['admin', 'editor']
+    },
+    children: [
+      {
+        path: 'role',
+        component: () => import('@/views/permission/role'),
+        name: 'RolePermission',
+        meta: {
+          title: '权限管理',
+          roles: ['admin']
+        }
+      },
+      {
+        path: 'page',
+        component: () => import('@/views/permission/page'),
+        name: 'PagePermission',
+        meta: {
+          title: '权限列表',
+          roles: ['editor', 'tourist']
+        }
+      }
+    ]
+  },
+
+
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
